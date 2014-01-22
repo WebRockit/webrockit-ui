@@ -1,0 +1,16 @@
+<script>
+  $(function() {
+    $("div.lazy").lazyload({
+      effect : "fadeIn"
+    });
+  });
+</script>
+<% @checks.sort.each do |checkobj| %>
+  <% check = checkobj.split('::')[1] %>
+  <% checkhash = Digest::MD5.hexdigest(check) %>
+  <div class="row">
+    <!-- TODO: pull this out into a css -->
+      <div class="col-lg-12 lazy img-rounded" data-original="<%= Spotcheck.generateImageUrl(@type,check) %>" style="width: 1100px; height: 150px; background-image: url('/images/base/webrockit-ship-animate-200px.gif'); background-repeat:no-repeat; background-position: center center; vertical-align: middle;"></div>
+      <noscript><img src="<%= Spotcheck.generateImageUrl(@type,check) %>" width=1100px height=150px /></noscript>
+  </div>
+<% end %>

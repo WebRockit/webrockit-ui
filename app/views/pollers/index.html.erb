@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-md-6">
+    <h3>Manage</h3>
+    <table class="table table-condensed">
+      <tr><th>Poller</th><th>Description</th><th>Actions</th></tr>
+      <% @pollers.each do |poller| %>
+        <tr>
+          <td><%= poller %></td>
+          <td><%= JSON.parse(Poller.fetch({:poller => poller}))['data']['description'] %></td>
+          <td>
+              <form method="post" action="/pollers/<%= poller %>">
+                <%= token_tag %>
+                <input type="hidden" name="poller" value="<%= poller %>">
+                <input type="hidden" value="delete" name="_method">
+                <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i> Delete</button>
+              </form>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<!-- throw an error if any API call fails, also do not render form -->
+<% if @apistatus == "ERROR" %>
+  <div class="alert alert-danger fade in">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <h4>API Call Failure</h4>
+    <p>Please contact the Webrockit API administrator. Once resolved, please reload the page.</p>
+    <p>
+      <a href="<%= request.url %>" ><button type="button" class="btn btn-danger">Reload</button></a>
+    </p>
+  </div>
+<% else %>
+  <!-- form validation fields -->
+  <script>
+    $(function () { $("input,select").not("[type=submit]").jqBootstrapValidation(); } );
+  </script>
+
+  <!-- start our form for creating checks -->
+  <form class="form-horizontal" id="createcheck" role="form" method="post" action="/checks">
+    <div class="form-group">
+      <label for="type" class="col-sm-2 control-label">Type</label>
+      <div class="col-sm-6">
+        <select class="form-control" id="type" name="type" required>
+          <% if @apistatus != "ERROR" %>
+            <% @check_types.each do |type|%>
+              <option><%= type %></option>
+            <% end %>
+          <% end %>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="name" class="col-sm-2 control-label">Name</label>
+      <div class="col-sm-6">
+        <input class="form-control" id="name" name="name" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="interval" class="col-sm-2 control-label">Run Interval (s)</label>
+      <div class="col-sm-2">
+        <input class="form-control" id="interval" name="interval" placeholder="300" type="number" min="300" value="300">
+      </div>
+    </div>  
+    <div class="form-group">
+      <label for="poller" class="col-sm-2 control-label">Poller</label>
+      <div class="col-sm-3">
+        <select class="form-control" id="poller" name="poller" required>
+            <option>webpoller</option>
+          <% if @apistatus != "ERROR" %>
+            <% @poller_locations.each do |location|%>
+              <option><%= location %></option>
+            <% end %>
+          <% end %>
+        </select>
+      </div>
+    </div>  
+    <div class="form-group">
+      <label for="application" class="col-sm-2 control-label">Application</label>
+      <div class="col-sm-3">
+        <input class="form-control" id="application" name="application" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="url" class="col-sm-2 control-label">Url</label>
+      <div class="col-sm-6">
+        <input class="form-control" id="url" name="url" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="ipaddress" class="col-sm-2 control-label">IP Address Override (optional)</label>
+      <div class="col-sm-3">
+        <input class="form-control" id="ipaddress" value="none" placeholder="optional" name="ipaddress">
+      </div>
+    </div>
+
+    <%= token_tag %>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+    </div>
+  </form>
+<% end %>

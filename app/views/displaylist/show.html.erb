@@ -1,0 +1,29 @@
+<script>
+  $(function() {
+    $("div.lazy").lazyload({
+      effect : "fadeIn"
+    });
+  });
+</script>
+<% @checks.sort.each do |checkobj| %>
+  <% check = checkobj.split('::')[1] %>
+  <% data = JSON.parse(Check.fetch({:type => @type,:name => check}))['data']['checks'][check] %>
+  <div class="panel panel-default">
+    <div class="panel-heading"><h4 class="panel-title"><%= data['subscribers'].first %> | <%= check %></h4></div>
+    <div class="panel-body">
+
+      <div class="row">
+        <!-- TODO: pull this out into a css -->
+        <% Displaylist.generateImageUrls(@type,check).each do |img| %>
+          <div class="col-lg-6 lazy img-rounded" data-original="<%= img %>" style="width: 500px; height: 250px; background-image: url('/images/base/webrockit-ship-animate-200px.gif'); background-repeat:no-repeat; background-position: center center; vertical-align: middle; margin-left:30px; margin-bottom:30px;"></div>
+          <noscript><img src="<%= img %>" width=500px height=250px /></noscript>
+        <% end %>
+      </div>
+      <hr>
+      <div class="well well-sm">
+        URL: <%= data['command'].split(' ')[2] %><br>
+        Interval: <%= data['interval'] %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,30 @@
+<% @check_types.each do |type| %>
+	<h3><%= type %></h3>
+	<% checks = JSON.parse(Check.list({:type => type}))['data'] %>
+	<div class="row">
+	  <div class="col-md-12">
+	    <table class="table table-condensed">
+	      <tr><th>Name</th><th>Command</th><th>Interval</th><th>Subscribers</th><th>Actions</th></tr>
+	      <% checks.each do |key| %>
+	      <% check = key.split('::')[1] %>
+	      <% data = JSON.parse(Check.fetch({:type => type,:name => check}))['data']['checks'][check] %>
+	        <tr>
+	          <td><%= check %></td>
+	          <td><%= data['command'] %></td>
+	          <td><%= data['interval'] %></td>
+	          <td><%= data['subscribers'] %></td>
+	          <td>
+	          	<form method="post" action="/checks/1">
+                <%= token_tag %>
+                <input type="hidden" name="name" value="<%= check %>">
+                <input type="hidden" name="type" value="<%= type %>">
+                <input type="hidden" value="delete" name="_method">
+                <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i> Delete</button>
+              </form>
+	          </td>
+	        </tr>
+	      <% end %>
+	    </table>
+	  </div>
+	</div>
+<% end %>
