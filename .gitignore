@@ -16,7 +16,6 @@
 /tmp
 
 Gemfile.lock
-webrockit-ui.war
 
 #ignore this since there are config settings in here
 config/config.yml
