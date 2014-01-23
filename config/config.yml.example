@@ -1,0 +1,8 @@
+#graphite
+graphite_url: https://graphite.example.com
+
+#webrockit api
+webrockitapi_url: http://127.0.0.1:8081
+webrockitapi_user: admin
+webrockitapi_pass: admin
+webrockitapi_version: v1
