@@ -6,3 +6,9 @@ webrockitapi_url: http://127.0.0.1:8081
 webrockitapi_user: admin
 webrockitapi_pass: admin
 webrockitapi_version: v1
+
+#webrockit checksync
+webrockitchecksync_url: http://127.0.0.1:8083
+webrockitchecksync_user: admin
+webrockitchecksync_pass: admin
+webrockitchecksync_version: v1

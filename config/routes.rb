@@ -5,6 +5,7 @@ WebrockitUi::Application.routes.draw do
   resources :checks
   resources :types
   resources :pollers
+  resources :checksync
 
   #display controllers
   resources :displaylist

@@ -1,0 +1,20 @@
+For checks to start polling, you must sync your checks down to the master, then load the checks.
+
+<h3>Import Checks to Sensu</h3>
+<form method="post" action="/checksync" class="form-inline" role="form">
+  <%= token_tag %>
+  <select name="type" class="form-control">
+  <option value="all">All Types</option>
+  <% @check_types.each do |type| %>
+    <option value="<%= type %>"><%= type %></option>
+  <% end %>
+  <input type="hidden" value="import" name="formtype">
+  <button type="submit" class="btn btn-primary">Import</button>
+</form>
+
+<h3>Load Checks into Sensu</h3>
+<form method="post" action="/checksync">
+  <%= token_tag %>
+  <input type="hidden" value="load" name="formtype">
+  <button type="submit" class="btn btn-success">Load</button>
+</form>
