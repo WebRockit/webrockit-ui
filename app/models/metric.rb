@@ -1,5 +1,6 @@
 class Metric
-  def self.select2Fetch(check,term)
+  def self.select2Fetch(name,term)
+    check = "#{ConfigHelper.hash()['graphite_prefix']}#{name}"
     @metrics = {
       'results' => [],
       'more' => false,

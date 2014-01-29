@@ -79,8 +79,8 @@
 		    </ul>
 
 		    <ul class="nav navbar-nav navbar-right">
-          	<li><%= link_to "Docs", "http://webrockit.io" %></li>
-            <li><%= link_to "Graphite", ConfigHelper.hash()['graphite_url'] %></li>
+          	<li><%= link_to "Docs", "http://webrockit.io", :target => "_blank" %></li>
+            <li><%= link_to "Graphite", ConfigHelper.hash()['graphite_url'], :target => "_blank" %></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs fa-fw"></i> Settings<b class="caret"></b></a>
               <ul class="dropdown-menu">

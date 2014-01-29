@@ -1,6 +1,8 @@
 class Graphexplorer
-  def self.generateGraphurl(check,metrics,from,to,ymin,ymax)
+  def self.generateGraphurl(name,metrics,from,to,ymin,ymax)
     graphite_url = "#{ConfigHelper.hash()['graphite_url']}/render?"
+
+    check = "#{ConfigHelper.hash()['graphite_prefix']}#{name}"
 
     images = []
     size = 'width=700&height=250'
