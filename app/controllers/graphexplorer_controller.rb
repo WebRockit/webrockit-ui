@@ -13,8 +13,10 @@ class GraphexplorerController < ApplicationController
     if params["form"] == "true"
       @ymin = params["ymin"].to_i
       @ymax = params["ymax"].to_i
-      @to = Time.parse(params["to"]).strftime("%F %H:%M")
-      @from = Time.parse(params["from"]).strftime("%F %H:%M")
+      @to = params["to"] ? Time.parse(params["to"]).strftime("%F %H:%M") : @to
+      @from = params["from"] ? Time.parse(params["from"]).strftime("%F %H:%M") : @from
+      @checkstr = params["checks"]
+      @metricstr = params["metrics"]
     end
     
     render :layout => 'base'
