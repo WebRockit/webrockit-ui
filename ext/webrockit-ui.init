@@ -12,7 +12,7 @@
 
 ### Fill in these bits:
 PORT="8082"
-START_CMD="java -jar -Djetty.port=$PORT /opt/webrockit-ui/webrockit-ui.war > /opt/webrockit-ui/logs/webrockit-ui.log 2>&1 &"
+START_CMD="java -jar -Djetty.port=$PORT /opt/webrockit-ui/webrockit-ui.war > /opt/webrockit-ui/log/webrockit-ui.log 2>&1 &"
 NAME="webrockit-ui"
 PGREP_STRING="webrockit-ui.war"
 PID_FILE="/opt/webrockit-ui/logs/webrockit-ui.pid"
