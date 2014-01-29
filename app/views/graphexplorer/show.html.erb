@@ -10,6 +10,17 @@ $(document).ready(function() {
       maximumSelectionSize: 15,
       width: "320px",
       multiple: true,
+      initSelection : function (element, callback) {
+                var data = [];
+                $(element.val().split(',')).each(function(i) {
+                    var item = this;
+                    data.push({
+                        id: item,
+                        text: item
+                    });
+                });
+                callback(data);
+      },
       ajax: { url : '/checks/<%= @type %>',
               cache: true,
               quietMillis: 200,
@@ -37,6 +48,17 @@ $(document).ready(function() {
       maximumSelectionSize: 15,
       width: "320px",
       multiple: true,
+      initSelection : function (element, callback) {
+                var data = [];
+                $(element.val().split(',')).each(function(i) {
+                    var item = this;
+                    data.push({
+                        id: item,
+                        text: item
+                    });
+                });
+                callback(data);
+      },
       ajax: { url : '/metrics/<%= firstcheck %>',
               cache: true,
               quietMillis: 200,
@@ -64,7 +86,7 @@ $(document).ready(function() {
         <legend>Checks</legend>
           <div class="row">
             <div class="col-lg-12">
-              <input type="hidden" name="checks" id="checks" />
+              <input type="hidden" name="checks" id="checks" value="<%=@checkstr%>" />
             </div>
           </div>
         <br>
@@ -72,7 +94,7 @@ $(document).ready(function() {
         <legend>Metrics</legend>
           <div class="row">
             <div class="col-lg-12">
-              <input type="hidden" name="metrics" id="metrics"></input>
+              <input type="hidden" name="metrics" id="metrics" value="<%=@metricstr%>" />
             </div>
           </div>
         <br>
@@ -88,11 +110,11 @@ $(document).ready(function() {
           </div>
           <div class="row">
             <label class="col-lg-4" text-align="left">Y-Min</label>
-            <input type="text" name="ymin" value="" class="col-lg-4"><br/>
+            <input type="text" name="ymin" value="<%=@ymin%>" class="col-lg-4" /><br/>
           </div>
           <div class="row">
             <label class="col-lg-4" text-align="left">Y-Max</label>
-            <input type="text" name="ymax" value="" class="col-lg-4"><br/>
+            <input type="text" name="ymax" value="<%=@ymax%>" class="col-lg-4"><br/>
           </div>
           <br>
         <input type="hidden" name="form" value="true">
