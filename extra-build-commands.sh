@@ -6,7 +6,7 @@
 PROBLEMS=0
 OLDPWD=`pwd`
 
-mkdir ./etc/init.d
+mkdir -p ./etc/init.d
 mv ./opt/webrockit-ui/ext/webrockit-ui.init ./etc/init.d/webrockit-ui
 chmod 755 ./etc/init.d/webrockit-ui
 if [ $? -ne 0 ]
