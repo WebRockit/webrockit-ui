@@ -1,6 +1,8 @@
 class Spotcheck
-  def self.generateImageUrl(type,check)
+  def self.generateImageUrl(type,name)
     graphite_url = "#{ConfigHelper.hash()['graphite_url']}/render?"
+
+    check = "#{ConfigHelper.hash()['graphite_prefix']}#{name}"
 
     images = []
     size = 'width=1100&height=150'

@@ -1,6 +1,8 @@
 class Displaylist
-  def self.generateImageUrls(type,check)
+  def self.generateImageUrls(type,name)
     graphite_url = "#{ConfigHelper.hash()['graphite_url']}/render?"
+
+    check = "#{ConfigHelper.hash()['graphite_prefix']}#{name}"
 
     images = []
     size = 'width=500&height=250'

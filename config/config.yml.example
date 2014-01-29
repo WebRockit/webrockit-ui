@@ -1,5 +1,6 @@
 #graphite
 graphite_url: https://graphite.example.com
+graphite_prefix: test.webrockit.
 
 #webrockit api
 webrockitapi_url: http://127.0.0.1:8081
