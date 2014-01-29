@@ -79,20 +79,18 @@ then
     rm -rf ${buildtargetpath}/.git
     rm -rf ${buildtargetpath}/buildme.sh
     rm -f ${buildtargetpath}/.gitignore
-    rm -f ${buildtargetpath}/.gitignore
 
     rm -f ${buildtargetpath}/Gemfile
     rm -f ${buildtargetpath}/Rakefile
     rm -f ${buildtargetpath}/TODO.md
-    rm -f ${buildtargetpath}/app
-    rm -f ${buildtargetpath}/bin
+    rm -rf ${buildtargetpath}/app
+    rm -rf ${buildtargetpath}/bin
     rm -f ${buildtargetpath}/build-requires.sh
     rm -f ${buildtargetpath}/config.ru
-    rm -f ${buildtargetpath}/ext
-    rm -f ${buildtargetpath}/lib
-    rm -f ${buildtargetpath}/public
-    rm -f ${buildtargetpath}/spec
-    rm -f ${buildtargetpath}/vendor
+    rm -rf ${buildtargetpath}/lib
+    rm -rf ${buildtargetpath}/public
+    rm -rf ${buildtargetpath}/spec
+    rm -rf ${buildtargetpath}/vendor
 
     #rm -f ${buildtargetpath}/Changelog
     #rm -f ${buildtargetpath}/LICENSE.txt
