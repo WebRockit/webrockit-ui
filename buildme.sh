@@ -102,7 +102,7 @@ else
 fi
 cd ${builddir}
 sh ${OLDPWD}/extra-build-commands.sh
-fpm -s dir -t ${PKGTYPE} -n ${PKGNAME} -v ${VERSION} --iteration ${ITERATION} -a ${PKGARCH} ./*
+fpm -s dir -t ${PKGTYPE} -n ${PKGNAME} -v ${VERSION} -d 'java-1.7.0-openjdk' --config-files '/opt/webrockit-ui/config/config.yml' --iteration ${ITERATION} -a ${PKGARCH} ./*
 mv ${PKGNAME}-${VERSION}-${ITERATION}.${PKGARCH}.${PKGTYPE} ${OLDPWD}/${FINALPKGDROP}
 cd ${OLDPWD}
 rm -rf ${builddir}
