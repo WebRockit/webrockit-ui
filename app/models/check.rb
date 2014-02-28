@@ -1,8 +1,7 @@
 class Check
   include WebrockitapiHelper
   include GraphiteHelper
-
-  #TODO: Need to add some caching to these calls. Maybe 15min, with a UI way to purge?
+  include MemcacheHelper
 
   def self.create(params)
     data = WebrockitapiHelper.params2string(params)
@@ -12,6 +11,27 @@ class Check
   def self.list(params)
     data = WebrockitapiHelper.params2string(params)
     return WebrockitapiHelper.call("listChecks?#{data}")
+  end
+
+  def self.listWithDetails(params)
+    key = "check_listWithDetails_#{params}"
+    val = MemcacheHelper.get(key)
+    if val == 1
+      data = WebrockitapiHelper.params2string(params)
+      checks = JSON.parse(WebrockitapiHelper.call("listChecks?#{data}"))['data']
+      fullobj = {}
+
+      checks.each do |fcheck|
+        check = fcheck.split('::')[1]
+        req = WebrockitapiHelper.params2string({:name => check}.merge(params))
+        details = JSON.parse(WebrockitapiHelper.call("fetchCheck?#{req}"))['data']
+        fullobj[check] = details
+      end
+      MemcacheHelper.set(key,fullobj,3600)
+      return fullobj
+    else
+      return val
+    end
   end
 
   def self.fetch(params)

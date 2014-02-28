@@ -1,21 +1,29 @@
-<script>
-  $(function() {
-    $("div.lazy").lazyload({
-      effect : "fadeIn"
-    });
-  });
-</script>
-<% @checks.sort.each do |checkobj| %>
-  <% check = checkobj.split('::')[1] %>
-  <% data = JSON.parse(Check.fetch({:type => @type,:name => check}))['data']['checks'][check] %>
+<% pages = (@checks.length.to_f / @items_per_page.to_f).ceil %>
+<ul class="pagination">
+  <li><a href="/displaylist/<%= @type %>:<%= @page-1 %>">&laquo;</a></li>
+  <% (1..pages).each do |page| %>
+    <% if page == @page %>
+      <li class="active"><a href="/displaylist/<%= @type %>:<%= page %>"><%= page %></a></li>
+    <% else %>
+      <li><a href="/displaylist/<%= @type %>:<%= page %>"><%= page %></a></li>
+    <% end %>
+  <% end %>
+  <li><a href="/displaylist/<%= @type %>:<%= @page+1 %>">&raquo;</a></li>
+</ul>
+<% startpos = @page * pages - 1 %>
+<% endpos = startpos + @items_per_page %>
+<% @checks.sort[startpos..endpos].each do |check,checkobj| %>
+  <% data = checkobj['checks'][check] %>
   <div class="panel panel-default">
-    <div class="panel-heading"><h4 class="panel-title"><%= data['subscribers'].first %> | <%= check %></h4></div>
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <%= data['subscribers'].first %> | <%= check %>
+      </h4>
+    </div>
     <div class="panel-body">
-
       <div class="row">
-        <!-- TODO: pull this out into a css -->
         <% Displaylist.generateImageUrls(@type,check).each do |img| %>
-          <div class="col-lg-6 lazy img-rounded" data-original="<%= img %>" style="width: 500px; height: 250px; background-image: url('/images/base/webrockit-ship-animate-200px.gif'); background-repeat:no-repeat; background-position: center center; vertical-align: middle; margin-left:30px; margin-bottom:30px;"></div>
+          <div class="col-lg-6 lazy img-rounded lazyloadgraph" data-original="<%= img %>"></div>
           <noscript><img src="<%= img %>" width=500px height=250px /></noscript>
         <% end %>
       </div>
@@ -27,3 +35,14 @@
     </div>
   </div>
 <% end %>
+<ul class="pagination">
+  <li><a href="/displaylist/<%= @type %>:<%= @page-1 %>">&laquo;</a></li>
+  <% (1..pages).each do |page| %>
+    <% if page == @page %>
+      <li class="active"><a href="/displaylist/<%= @type %>:<%= page %>"><%= page %></a></li>
+    <% else %>
+      <li><a href="/displaylist/<%= @type %>:<%= page %>"><%= page %></a></li>
+    <% end %>
+  <% end %>
+  <li><a href="/displaylist/<%= @type %>:<%= @page+1 %>">&raquo;</a></li>
+</ul>

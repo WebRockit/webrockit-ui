@@ -1,4 +1,6 @@
 class Metric
+  include MemcacheHelper
+
   def self.select2Fetch(name,term)
     check = "#{ConfigHelper.hash()['graphite_prefix']}#{name}"
     @metrics = {
@@ -9,7 +11,15 @@ class Metric
       url = "#{ConfigHelper.hash()['graphite_url']}/metrics?query=#{check}.*"
       @metrics['url'] = url
 
-      list = JSON.parse(GraphiteHelper.call(url,{}))
+      key = "metric_graphite_metrics_query_#{check}"
+      val = MemcacheHelper.get(key)
+      if val == 1
+        list = JSON.parse(GraphiteHelper.call(url,{}))
+        MemcacheHelper.set(key,list,1800)
+      else
+        list = val
+      end
+
       list.each do |data|
         metric = data['text']
         if Regexp.new("#{term}") =~ metric
@@ -34,5 +44,7 @@ class Metric
       @apistatus = "ERROR"
     end
     return @metrics
+
   end
+
 end

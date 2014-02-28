@@ -13,3 +13,8 @@ webrockitchecksync_url: http://127.0.0.1:8083
 webrockitchecksync_user: admin
 webrockitchecksync_pass: admin
 webrockitchecksync_version: v1
+
+memcached_host: 127.0.0.1
+memcached_port: 11211
+
+horizon_extent: 1500
