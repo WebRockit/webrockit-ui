@@ -10,8 +10,14 @@
   <% end %>
   <li><a href="/displaylist/<%= @type %>:<%= @page+1 %>">&raquo;</a></li>
 </ul>
-<% startpos = @page * pages - 1 %>
+<% if @page == 1
+     startpos = 0
+   else
+     startpos = ((@page - 1) * @items_per_page)
+    end %>
+
 <% endpos = startpos + @items_per_page %>
+<!-- DEBUG:  Array Len <%= @checks.length.to_f %> - Start Item <%= startpos %> - End item <%= endpos %> - Page <%= @page %> - Pages <%= pages %> -->
 <% @checks.sort[startpos..endpos].each do |check,checkobj| %>
   <% data = checkobj['checks'][check] %>
   <div class="panel panel-default">
