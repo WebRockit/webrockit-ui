@@ -23,7 +23,11 @@
   <li><a href="/spotcheck/<%= @type %>:<%= @page+1 %>">&raquo;</a></li>
 </ul>
 
-<% startpos = @page * pages - 1 %>
+<% if @page == 1
+     startpos = 0
+   else
+     startpos = ((@page - 1) * @items_per_page)
+    end %>
 <% endpos = startpos + @items_per_page %>
 <!-- TODO: horizon extent needs to be tunable -->
 <script>
