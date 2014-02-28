@@ -1,16 +1,71 @@
+<% pages = (@checks.length.to_f / @items_per_page.to_f).ceil %>
+<ul class="pagination">
+  <li><a href="/spotcheck/<%= @type %>:<%= @page-1 %>">&laquo;</a></li>
+  <% (1..pages).each do |page| %>
+    <% if page == @page %>
+      <li class="active"><a href="/spotcheck/<%= @type %>:<%= page %>"><%= page %></a></li>
+    <% else %>
+      <li><a href="/spotcheck/<%= @type %>:<%= page %>"><%= page %></a></li>
+    <% end %>
+  <% end %>
+  <li><a href="/spotcheck/<%= @type %>:<%= @page+1 %>">&raquo;</a></li>
+</ul>
+<div id="spotcheck"></div>
+<ul class="pagination">
+  <li><a href="/spotcheck/<%= @type %>:<%= @page-1 %>">&laquo;</a></li>
+  <% (1..pages).each do |page| %>
+    <% if page == @page %>
+      <li class="active"><a href="/spotcheck/<%= @type %>:<%= page %>"><%= page %></a></li>
+    <% else %>
+      <li><a href="/spotcheck/<%= @type %>:<%= page %>"><%= page %></a></li>
+    <% end %>
+  <% end %>
+  <li><a href="/spotcheck/<%= @type %>:<%= @page+1 %>">&raquo;</a></li>
+</ul>
+
+<% startpos = @page * pages - 1 %>
+<% endpos = startpos + @items_per_page %>
+<!-- TODO: horizon extent needs to be tunable -->
 <script>
-  $(function() {
-    $("div.lazy").lazyload({
-      effect : "fadeIn"
-    });
+  var context = cubism.context()
+      .serverDelay(15 * 1000) // allow 15 seconds of collection lag
+      .step(300000) // five minutes
+      .size(800);
+
+  var graphite = context.graphite("<%= ConfigHelper.hash()['graphite_url'] %>");
+
+  var checks = [
+  <% @checks.sort[startpos..endpos].each do |checkobj| %>
+    graphite
+      .metric("<%= ConfigHelper.hash()['graphite_prefix'] %><%= checkobj.split('::')[1] %>.httptrafficcompleted")
+      .alias(" <%= checkobj.split('::')[1] %> | "),
+  <% end %>
+  ];
+
+  d3.select("#spotcheck").selectAll(".axis")
+      .data(["top", "bottom"])
+    .enter().append("div").attr("class", "fluid-row")
+      .attr("class", function(d) { return d + " axis"; })
+      .each(function(d) {
+        d3.select(this).call(
+          context.axis()
+          .ticks(10)
+          .orient(d));
+        });
+
+  d3.select("#spotcheck").append("div")
+      .attr("class", "rule")
+      .call(context.rule());
+
+  d3.select("#spotcheck").selectAll(".horizon")
+      .data(checks)
+    .enter().insert("div", ".bottom")
+      .attr("class", "horizon").call(context.horizon()
+        .extent([0, <%= ConfigHelper.hash()['horizon_extent'] %>])
+        .height(40)
+        .colors(["#bdd7e7","#bae4b3","#74c476", "#6baed6","#3182bd","#08519c"]));
+
+  context.on("focus", function(i) {
+    d3.selectAll(".value");
   });
 </script>
-<% @checks.sort.each do |checkobj| %>
-  <% check = checkobj.split('::')[1] %>
-  <% checkhash = Digest::MD5.hexdigest(check) %>
-  <div class="row">
-    <!-- TODO: pull this out into a css -->
-      <div class="col-lg-12 lazy img-rounded" data-original="<%= Spotcheck.generateImageUrl(@type,check) %>" style="width: 1100px; height: 150px; background-image: url('/images/base/webrockit-ship-animate-200px.gif'); background-repeat:no-repeat; background-position: center center; vertical-align: middle;"></div>
-      <noscript><img src="<%= Spotcheck.generateImageUrl(@type,check) %>" width=1100px height=150px /></noscript>
-  </div>
-<% end %>
