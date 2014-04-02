@@ -27,13 +27,13 @@ $(document).ready(function() {
               dataType: 'json',
               data: function (term) {
                 return { q: term};
-               
+
               },
-              results: function (data) { return data; } 
+              results: function (data) { return data; }
             },
-      createSearchChoice:function(term, data) { 
-        if ($(data).filter(function() { 
-          return this.text.localeCompare(term)===0; 
+      createSearchChoice:function(term, data) {
+        if ($(data).filter(function() {
+          return this.text.localeCompare(term)===0;
         }).length===0) {return {id:term, text:term};} },
     }
   );
@@ -65,13 +65,13 @@ $(document).ready(function() {
               dataType: 'json',
               data: function (term) {
                 return { q: term};
-               
+
               },
-              results: function (data) { return data; } 
+              results: function (data) { return data; }
             },
-      createSearchChoice:function(term, data) { 
-        if ($(data).filter(function() { 
-          return this.text.localeCompare(term)===0; 
+      createSearchChoice:function(term, data) {
+        if ($(data).filter(function() {
+          return this.text.localeCompare(term)===0;
         }).length===0) {return {id:term, text:term};} },
     }
   );
@@ -114,7 +114,7 @@ $(document).ready(function() {
           </div>
           <div class="row">
             <label class="col-lg-4" text-align="left">Y-Max</label>
-            <input type="text" name="ymax" value="<%=@ymax%>" class="col-lg-4"><br/>
+            <input type="text" name="ymax" value="<%=@ymax if @ymax != 0 %>" class="col-lg-4"><br/>
           </div>
           <br>
         <input type="hidden" name="form" value="true">
@@ -123,7 +123,7 @@ $(document).ready(function() {
     </div><!--/.well -->
   </div>
 
-  <div class="col-lg-8">  
+  <div class="col-lg-8">
     <% if @params['form'] == 'true' %>
       <% checks = @params['checks'].split(',') %>
       <% metrics = @params['metrics'].split(',') %>
