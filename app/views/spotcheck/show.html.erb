@@ -34,7 +34,7 @@
   var context = cubism.context()
       .serverDelay(15 * 1000) // allow 15 seconds of collection lag
       .step(300000) // five minutes
-      .size(800);
+      .size(700);
 
   var graphite = context.graphite("<%= ConfigHelper.hash()['graphite_url'] %>");
 

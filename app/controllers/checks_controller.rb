@@ -1,10 +1,12 @@
 class ChecksController < ApplicationController
 
   def index
+    @type = params[:id]
     render :layout => 'base'
   end
 
   def new
+    @type = params[:id]
     #if there was a previous api call, get the status
     @apistatus = session[:api_errors]
     session[:api_errors] = nil
@@ -26,7 +28,7 @@ class ChecksController < ApplicationController
   	if createcall == "ERROR"
       @apistatus = "ERROR"
       session[:api_errors] = @apistatus
-    else 
+    else
       @result = JSON.parse(createcall)
     end
   	redirect_to :back
@@ -37,7 +39,7 @@ class ChecksController < ApplicationController
     if deletecall == "ERROR"
       @apistatus = "ERROR"
       session[:api_errors] = @apistatus
-    else 
+    else
       @result = JSON.parse(deletecall)
     end
     redirect_to :back
