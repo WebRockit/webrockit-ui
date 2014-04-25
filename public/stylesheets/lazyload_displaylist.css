@@ -1,10 +1,18 @@
 .lazyloadgraph {
-width: 500px;
-height: 250px;
-background-image: url('/images/base/webrockit-ship-animate-200px.gif');
-background-repeat:no-repeat;
-background-position: center center;
-vertical-align: middle;
-margin-left:30px;
-margin-bottom:30px;
+  width: 500px;
+  height: 250px;
+  background-image: url('/images/base/webrockit-ship-animate-200px.gif');
+  background-repeat:no-repeat;
+  background-position: center center;
+  vertical-align: middle;
+  margin-left:30px;
+  margin-bottom:30px;
+}
+
+.lazy {
+    height: 50;
+    width: 50;
+}
+.container img {
+  margin-bottom: 5px;
 }

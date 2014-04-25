@@ -29,11 +29,22 @@
      startpos = ((@page - 1) * @items_per_page)
     end %>
 <% endpos = startpos + @items_per_page %>
-<!-- TODO: horizon extent needs to be tunable -->
+<style>
+  .axis text {
+    font: 14px sans-serif;
+  }
+
+  .axis line,
+  .axis path {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+</style>
 <script>
   var context = cubism.context()
-      .serverDelay(15 * 1000) // allow 15 seconds of collection lag
-      .step(300000) // five minutes
+      .serverDelay(15 * 1000)
+      .step(300000)
       .size(700);
 
   var graphite = context.graphite("<%= ConfigHelper.hash()['graphite_url'] %>");
@@ -42,13 +53,13 @@
   <% @checks.sort[startpos..endpos].each do |checkobj| %>
     graphite
       .metric("<%= ConfigHelper.hash()['graphite_prefix'] %><%= checkobj.split('::')[1] %>.httptrafficcompleted")
-      .alias(" <%= checkobj.split('::')[1] %> | "),
+      .alias(" <%= checkobj.split('::')[1] %> (ms) | "),
   <% end %>
   ];
 
   d3.select("#spotcheck").selectAll(".axis")
       .data(["top", "bottom"])
-    .enter().append("div").attr("class", "fluid-row")
+    .enter().append("div")
       .attr("class", function(d) { return d + " axis"; })
       .each(function(d) {
         d3.select(this).call(
@@ -57,16 +68,12 @@
           .orient(d));
         });
 
-  d3.select("#spotcheck").append("div")
-      .attr("class", "rule")
-      .call(context.rule());
-
   d3.select("#spotcheck").selectAll(".horizon")
       .data(checks)
     .enter().insert("div", ".bottom")
       .attr("class", "horizon").call(context.horizon()
         .extent([0, <%= ConfigHelper.hash()['horizon_extent'] %>])
-        .height(40)
+        .height(48)
         .colors(["#bdd7e7","#bae4b3","#74c476", "#6baed6","#3182bd","#08519c"]));
 
   context.on("focus", function(i) {
